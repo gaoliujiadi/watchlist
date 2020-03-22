@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>{{ name }}'s Watchlist.</title>
+    </head>
+    <body>
+        <h2>{{ name }}'s Watchlist.</h2>
+        {# 使用length过滤器获取movie变量长度,相当于Python中的`len()` #}
+        <p>{{ movies|length }} Titles</p>
+        <ul>
+            {% for movie in movies %}
+            <li>{{ movie.title }} - {{ movie.yeat }}</li> {# 等同于 movie['title'] #}
+            {% endfor %} {# 结束for语句 #}
+        </ul>
+        <footer>
+            <small>&copy; 2018 <a href="http://helloflask.com/tutorial">HelloFlask</a></small>
+        </footer>
+    </body>
+</html>
