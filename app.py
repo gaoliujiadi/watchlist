@@ -123,7 +123,7 @@ def test_url_for():
 @app.context_processor
 def inject_user():
     user = User.query.first()
-    return dict(usr=user)# 需要返回字典，等同于return {'user': user}
+    return dict(user=user)# 需要返回字典，等同于return {'user': user}
 
 @app.route('/',methods=['GET','POST'])
 def index():
@@ -194,7 +194,7 @@ def login():
         #验证用户名和密码是否一致
         if username == user.username and user.validate_password(password):
             login_user(user)#登录用户
-            flash('Login success')
+            flash('Login success.')
             return redirect(url_for('index'))
 
         flash('Invalid username or password.')#验证失败
@@ -216,7 +216,7 @@ def settings():
         name = request.form['name']
 
         if not name or len(name) > 20:
-            flash('Invalid input.'}
+            flash('Invalid input.')
             return redirect(url_for('settings'))
             
         current_user.name = name
@@ -228,4 +228,4 @@ def settings():
         flash('Settings updated.')
         return redirect(url_for('index'))
 
-    return reder_template('settings.html')
+    return render_template('settings.html')
