@@ -10,14 +10,14 @@ from werkzeug.security import generate_password_hash,check_password_hash
 
 from flask_login import LoginManager,UserMixin,login_user,login_required,logout_user,current_user
 
-app = Flask(__name__)
-
 WIN = sys.platform.startswith('win')
 if WIN:# 如果是 Windows 系统，使用三个斜线
     prefix = 'sqlite:///'
 else:
     prefix = 'sqlite:////'
 
+
+app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = prefix + os.path.join(app.root_path,'data.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False#关闭对模型修改的监控
 app.config['SECRET_KEY'] = 'dev'
@@ -106,7 +106,7 @@ def admin(username,password):
 def load_user(user_id):#创建用户加载回调函数，接受用户ID作为参数
     user = User.query.get(int(user_id))#用ID作为User模型的主键查询对应的用户
     return user
-
+'''
 @app.route('/user/<name>')
 def user_page(name):
 	return 'User: %s' % escape(name)
@@ -119,7 +119,7 @@ def test_url_for():
 	print(url_for('test_url_for'))
 	print(url_for('test_url_for',num=2))
 	return 'Test page'
-
+'''
 @app.context_processor
 def inject_user():
     user = User.query.first()
@@ -169,7 +169,7 @@ def edit(movie_id):
         flash('Item updated')
         return redirect(url_for('index'))
 
-    return reder_template('edit.html',movie=movie)
+    return render_template('edit.html',movie=movie)
 
 @app.route('/movie/delete/<int:movie_id>',methods=['POST'])#限定只接受POST请求
 @login_required#登录保护
