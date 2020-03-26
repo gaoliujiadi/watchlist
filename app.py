@@ -161,9 +161,9 @@ def edit(movie_id):
 @app.route('/movie/delete/<int:movie_id>',methods=['POST'])#限定只接受POST请求
 @login_required#登录保护
 def delete(movie_id):
-    movie = Movie.query.ger_or_404(movie_id)
+    movie = Movie.query.get_or_404(movie_id)
     db.session.delete(movie)
-    db.commit()
+    db.session.commit()
     flash('Item deleted')
     return redirect(url_for('index'))
 
