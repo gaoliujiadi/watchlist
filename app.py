@@ -106,20 +106,7 @@ def admin(username,password):
 def load_user(user_id):#创建用户加载回调函数，接受用户ID作为参数
     user = User.query.get(int(user_id))#用ID作为User模型的主键查询对应的用户
     return user
-'''
-@app.route('/user/<name>')
-def user_page(name):
-	return 'User: %s' % escape(name)
 
-@app.route('/test')
-def test_url_for():
-	print(url_for('hello'))
-	print(url_for('user_page',name='greyli'))
-	print(url_for('user_page',name='peter'))
-	print(url_for('test_url_for'))
-	print(url_for('test_url_for',num=2))
-	return 'Test page'
-'''
 @app.context_processor
 def inject_user():
     user = User.query.first()
@@ -138,7 +125,7 @@ def index():
         movie = Movie(title=title,year=year)
         db.session.add(movie)
         db.session.commit()
-        flash('Item created.')
+        flash('Item created')
         return redirect(url_for('index'))
 
     user = User.query.first()
@@ -177,7 +164,7 @@ def delete(movie_id):
     movie = Movie.query.ger_or_404(movie_id)
     db.session.delete(movie)
     db.commit()
-    flash('Item deleted.')
+    flash('Item deleted')
     return redirect(url_for('index'))
 
 @app.route('/login',methods=['GET','POST'])
@@ -187,17 +174,17 @@ def login():
         password = request.form['password']
 
         if not username or not password:
-            flash('Invalid input.')
+            flash('Invalid input')
             return redirect(url_for('login'))
         
         user = User.query.first()
         #验证用户名和密码是否一致
         if username == user.username and user.validate_password(password):
             login_user(user)#登录用户
-            flash('Login success.')
+            flash('Login success')
             return redirect(url_for('index'))
 
-        flash('Invalid username or password.')#验证失败
+        flash('Invalid username or password')#验证失败
         return redirect(url_for('login'))
     
     return render_template('login.html')
@@ -206,7 +193,7 @@ def login():
 @login_required#用于视图保护
 def logout():
     logout_user()
-    flash('Good bye.')
+    flash('Goodbye')
     return redirect(url_for('index'))
 
 @app.route('/settings',methods=['GET','POST'])
@@ -216,7 +203,7 @@ def settings():
         name = request.form['name']
 
         if not name or len(name) > 20:
-            flash('Invalid input.')
+            flash('Invalid input')
             return redirect(url_for('settings'))
             
         current_user.name = name
@@ -225,7 +212,7 @@ def settings():
         # user = User.query.first()
         # user.name = name
         db.session.commit()
-        flash('Settings updated.')
+        flash('Settings updated')
         return redirect(url_for('index'))
 
     return render_template('settings.html')
