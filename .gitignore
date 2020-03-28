@@ -7,4 +7,3 @@ __pycache__
 htmlcov/
 .coverage
 bash.exe.stackdump
-app.py
