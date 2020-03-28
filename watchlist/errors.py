@@ -1,4 +1,5 @@
-from flask import render_templates
+# -*- coding: utf-8 -*-
+from flask import render_template
 
 from watchlist import app
 
