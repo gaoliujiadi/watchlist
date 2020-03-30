@@ -10,8 +10,8 @@
         {% endblock %}
     </head>
     <body>
-        {% for message in get_flashed_messages() %}
-            <div class="alert">{{ message }}</div>
+        {% for aMessage in get_flashed_messages() %}
+            <div class="alert">{{ aMessage }}</div>
         {% endfor %}
         <h2>
             <img alt="Avatar" class="avatar" src="{{ url_for('static',filename='images/avatar.jpg') }}">
@@ -20,6 +20,7 @@
         <nav>
             <ul>
                 <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('messages') }}">Messages</a></li>
                 {% if current_user.is_authenticated %}
                 <li><a href="{{ url_for('settings') }}">Setting</a></li>
                 <li><a href="{{ url_for('logout') }}">Logout</a></li>
@@ -32,5 +33,6 @@
         <footer>
             <small>&copy;2018 <a href="http://helloflask.com/tutorial">HelloFlask</a></small>
         </footer>
+        {% block script %}{% endblock %}
     </body>
 </html>

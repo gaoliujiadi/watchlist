@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>Messages</h3>
+<form method="post">
+    <label for="name">Name</label>
+    <br>
+    <input type="text" name='name' class="name theForm" id="name" value='' required>
+    <br><br>
+    <label for="message">Message</label>
+    <br>
+    <textarea name="message" id="message" class="theForm"></textarea>
+    <br><br>
+    <input type="submit" class="btn msg-btn" name="Submit" >
+</form>
+
+<h3>{{ messages|length }} Messages</h3>
+<ul class="message-list">
+    {% for message in messages %}
+        <li>
+            <div class="name_and_number">
+                <h4>{{ message.name }} <small>#{{ loop.revindex }}</small></h4>
+                <small class="time" data-timestamp="{{ message.timestamp.strftime('%Y-%m-%dT%H:%M:%SZ') }}">{{ moment(message.timestamp).fromNow(refresh=True) }}</small>
+            </div>
+            <div class="messages-list">
+                {{ message.message }}
+            </div>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+{{ moment.include_moment(local_js=url_for('static', filename='js/moment-with-locales.min.js')) }}
+<script>
+    moment.locale("en");
+    function flask_moment_render(elem) {
+        $(elem).text(eval('moment("' + $(elem).data('timestamp') + '").' + $(elem).data('format') + ';'));
+        $(elem).removeClass('flask-moment').show();
+    }
+    function flask_moment_render_all() {
+        $('.flask-moment').each(function() {
+            flask_moment_render(this);
+            if ($(this).data('refresh')) {
+                (function(elem, interval) { setInterval(function() { flask_moment_render(elem) }, interval); })(this, $(this).data('refresh'));
+            }
+        })
+    }
+    $(document).ready(function() {
+        flask_moment_render_all();
+    });
+</script>
+<script>
+    $(function () {
+    function render_time() {
+        return moment($(this).data('timestamp')).format('lll')
+    }
+    $('[data-toggle="tooltip"]').tooltip(
+        {title: render_time}
+    );
+});
+</script>
+
+{% endblock %}

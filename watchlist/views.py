@@ -3,7 +3,7 @@ from flask import render_template, request, url_for, redirect, flash
 from flask_login import login_user, login_required, logout_user, current_user
 
 from watchlist import app, db
-from watchlist.models import User, Movie
+from watchlist.models import User, Movie,Message
 
 
 @app.route('/',methods=['GET','POST'])
@@ -40,7 +40,7 @@ def edit(movie_id):
         title = request.form['title']
         year = request.form['year']
 
-        if not title or not year or len(year) >4 or len(title) > 60:
+        if not title or not year or len(year) > 4 or len(title) > 60:
             flash('Invalid input')
             return redirect(url_for('edit',movie_id=movie_id))
 
@@ -110,3 +110,24 @@ def settings():
         return redirect(url_for('index'))
 
     return render_template('settings.html')
+
+@app.route('/messages',methods=['GET','POST'])
+#@login_required
+def messages():
+    #theMessage = Message.query.get_or_404(movie_id)
+    if request.method == 'POST':
+        name = request.form.get('name')
+        message = request.form['message']
+
+        if not name or not message or len(name) > 60:
+            flash("Invalid input")
+            return redirect(url_for('messages'))
+
+        msg = Message(name=name,message=message)
+        db.session.add(msg)
+        db.session.commit()
+        flash('Message created')
+
+    #theMessage = Message.query.all()
+    messages = Message.query.order_by(Message.timestamp.desc()).all()
+    return render_template('messages.html',messages=messages)

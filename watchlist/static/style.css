@@ -132,3 +132,53 @@ input[type=year]{
 .inline-form{
     display: inline;
 }
+
+/*message*/
+.theForm{
+    width: 100%;
+    padding: .375rem .75rem;
+    border: 1px solid #b1b3b6!important;
+    box-sizing: border-box;
+}
+
+.msg-btn{
+    padding: .375rem .75rem;
+    font-size: .8rem;
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+textarea{
+    height: 5rem;
+}
+
+.message-list{
+    list-style-type: none;
+    padding: 0;
+    border: #b1b3b6 1px solid;
+    width: 100%;
+    border-radius:5px
+}
+
+.message-list li{
+    padding: 12px 24px;
+    border-bottom: 1px solid #b1b3b6;
+}
+
+h4{
+    margin-block-start: .33em;
+}
+
+.name_and_number{
+    display: flex!important;
+    justify-content: space-between!important;
+}
+
+small{
+    color: #6c757d;
+}
+
+.message-list li:last-child{
+    border-bottom: none;
+}
