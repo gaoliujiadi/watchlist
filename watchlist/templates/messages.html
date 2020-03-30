@@ -22,9 +22,15 @@
                 <h4>{{ message.name }} <small>#{{ loop.revindex }}</small></h4>
                 <small class="time" data-timestamp="{{ message.timestamp.strftime('%Y-%m-%dT%H:%M:%SZ') }}">{{ moment(message.timestamp).fromNow(refresh=True) }}</small>
             </div>
-            <div class="messages-list">
+            <div class="aMessage-list">
                 {{ message.message }}
+                <span class="float-right">
+                    <form class="inline-form" method="POST" action="{{ url_for('deleteMsg',message_id=message.id) }}">
+                        <input class="btn" type="submit" name="delete" value="Delete" onclick="return confirm('Are you sure?')">
+                    </form>
+                </span>
             </div>
+            
         </li>
     {% endfor %}
 </ul>

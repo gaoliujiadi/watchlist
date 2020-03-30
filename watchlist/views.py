@@ -10,9 +10,9 @@ from watchlist.models import User, Movie,Message
 def index():
     if request.method == 'POST':
         title = request.form.get('title')#传入表单对应输入字段的name值
-        year = request.form.get('yesr')
+        year = request.form.get('year')
         #验证数据
-        if not title or not year or len(yesr) > 4 or len(title) > 60:
+        if not title or not year or len(year) > 4 or len(title) > 60:
             flash('Invalid input')#显示错误提示
             return redirect(url_for('index'))#重新定向回主页
         #保存表单数据到数据库
@@ -112,7 +112,6 @@ def settings():
     return render_template('settings.html')
 
 @app.route('/messages',methods=['GET','POST'])
-#@login_required
 def messages():
     #theMessage = Message.query.get_or_404(movie_id)
     if request.method == 'POST':
@@ -131,3 +130,12 @@ def messages():
     #theMessage = Message.query.all()
     messages = Message.query.order_by(Message.timestamp.desc()).all()
     return render_template('messages.html',messages=messages)
+
+@app.route('/messages/delete/<int:message_id>',methods=['POST'])
+@login_required
+def deleteMsg(message_id):
+    message = Message.query.get_or_404(message_id)
+    db.session.delete(message)
+    db.session.commit()
+    flash('Item deleted')
+    return redirect(url_for('messages'))
